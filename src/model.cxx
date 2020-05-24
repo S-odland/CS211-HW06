@@ -2,6 +2,9 @@
 
 using namespace ge211;
 
+//Position mouse_pos = {0,0};
+//bool b = 0;
+
 Model::Model(int size)
         : Model(size, size)
 { }
@@ -12,6 +15,10 @@ Model::Model(int width, int height)
     turn_ = Player::dark;
     compute_next_moves_();
 }
+
+Position mouse_pos = {0,0};
+bool b = 0;
+Position mouse_click_pos = {0,0};
 
 Rectangle Model::board() const
 {

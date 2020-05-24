@@ -15,11 +15,14 @@ public:
     // pos will be determined by the mouse position in controller and b will
     // signify whether or not the mouse has been clicked or not
 
-    void draw(ge211::Sprite_set& set, ge211::Position pos, bool b);
+    void draw(ge211::Sprite_set& set);
 
     ge211::Dimensions initial_window_dimensions() const;
 
     std::string initial_window_title() const;
+
+    ge211::Position screen_to_board(ge211::Position pos) const;
+    ge211::Position board_to_screen(ge211::Position pos) const;
 
 private:
     Model const& model_;
@@ -31,13 +34,8 @@ private:
     ge211::Circle_sprite loser_sprite_;
     ge211::Rectangle_sprite grid_sprite_;
 
-    ge211::Position screen_to_board(ge211::Position pos) const;
-    ge211::Position board_to_screen(ge211::Position pos) const;
     void add_player_(ge211::Sprite_set& set,
                     Player p,
                     ge211::Position pos,
                     int z) const;
-    void hover_player_(ge211::Sprite_set& set,
-                     Player p,
-                     ge211::Position pos) const;
 };

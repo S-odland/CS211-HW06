@@ -17,9 +17,17 @@
 #include <iostream>
 #include <vector>
 
+// mouse position
+extern ge211::Position mouse_pos;
+// boolean represents whether or not the mouse has been pushed
+extern bool b;
+// mouse position on click
+extern ge211::Position mouse_click_pos;
+
 // Represents the state of the Reversi game.
 class Model
 {
+
 public:
     /***************************************************/
     /*** DON'T CHANGE ANYTHING IN THE PUBLIC SECTION ***/
@@ -38,6 +46,7 @@ public:
     //  - Throws `ge211::Client_logic_error` if either dimension is less
     //    than 2 or greater than 8.
     Model(int width, int height);
+
 
     // Returns a rectangle containing all the positions of the board.
     // This can be used to iterate over the positions.

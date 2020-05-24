@@ -28,10 +28,8 @@ protected:
     // Controller operations called by GE211
     //
 
-    // TODO: Add any input handlers you need, e.g.:
-    //  - on_mouse_up for mouse clicks,
-    //  - on_mouse_move for mouse tracking, or
-    //  - on_frame for animation (?).
+    void on_mouse_up(ge211::Mouse_button, ge211::Position) override;
+    void on_mouse_move(ge211::Position) override;
 
     // These three delegate to the view:
     void draw(ge211::Sprite_set&) override;
@@ -42,7 +40,4 @@ private:
     Model            model_;
     View             view_;
 
-    // TODO: Add any UI state you need, e.g.:
-    //  - the position of the mouse, or
-    //  - the position of a keyboard-controller cursor.
 };
