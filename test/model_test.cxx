@@ -10,8 +10,20 @@ struct Test_access {
         return m_.board_;
     }
 
+    Player& turn() {
+        return m_.turn_;
+    }
+
+    Move_map& move_map() {
+        return m_.next_moves_;
+    }
+
     Position_set find_flips(Position start, Dimensions dir) {
         return m_.find_flips_(start, dir);
+    }
+
+    Position_set evaluate_position(Position pos) {
+        return m_.evaluate_position_(pos);
     }
 };
 
@@ -53,13 +65,17 @@ TEST_CASE("Next Moves Works")
     m.play_move({4, 3}); //Dark
     m.play_move({4, 4}); //Light
 
-    std::cout << t.board() << std::endl;
+    Position_set pset = t.find_flips(Position{3,5}, Dimensions{0,-1});
 
-    Position_set pset = t.find_flips({3,5}, {0,-1});
+    std::cout << "Find flips: {3, 5}" << std::endl;
+    for (Position pos : pset) {
+        std::cout << "X = " << pos.x << "\tY = " << pos.y << std::endl;
+    }
 
-    CHECK_FALSE( pset.empty() );
-
-    CHECK( pset[{3, 4}] );
+    std::cout << "Next moves:" << std::endl;
+    for (Move m : t.move_map()) {
+        std::cout << "X = " << m.first.x << "\tY = " << m.first.y << std::endl;
+    }
 
     CHECK( m.find_move({3, 5}) );
 

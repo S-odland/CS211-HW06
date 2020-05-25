@@ -35,17 +35,6 @@ void View::draw(Sprite_set& set)
         add_player_(set, model_[pos], board_to_screen(pos), 1);
     }
 
-    if (b == 1){
-        if (model_.find_move(screen_to_board(mouse_pos)) != NULL) {
-            Position_set pos_set = model_.find_move(screen_to_board(mouse_pos))
-                                         ->second;
-            add_player_(set, model_.turn(),mouse_click_pos, 1);
-            for (Position p : pos_set) {
-                add_player_(set, model_.turn(), p, 1);
-            }
-        }
-    }
-
     if (model_.turn() == Player::dark){
         set.add_sprite(dark_sprite_, board_to_screen
         (screen_to_board(mouse_pos)), 2);

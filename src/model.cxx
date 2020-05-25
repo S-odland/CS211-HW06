@@ -57,22 +57,22 @@ void Model::play_move(Position pos)
 Position_set Model::find_flips_(Position start, Dimensions dir) const
 {
     Position_set pset{};
-    Position current = start + 1 * dir;
+    Position current = start + dir;
 
-    for (int n = 1; board_.good_position(current) ; ++n, current += n * dir) {
+    for (; board_.good_position(current) && board_[current] != Player::neither;
+        current += dir) {
         if (board_[current] == other_player(turn_)) {
             pset[current] = true;
-        }
-        if (!board_.good_position(current)){
-            return Position_set();
+        } else if (board_[current] == turn_) {
+            return pset;
         }
     }
-    return pset;
+    return Position_set{};
 }
 
 Position_set Model::evaluate_position_(Position pos) const
 {
-    if (board_[pos] == Player::neither) return Position_set();
+    if (board_[pos] != Player::neither) return Position_set{};
 
     Position_set pset{};
     for (Dimensions dir : Board::all_directions()) {
