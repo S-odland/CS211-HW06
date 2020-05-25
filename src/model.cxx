@@ -2,9 +2,6 @@
 
 using namespace ge211;
 
-//Position mouse_pos = {0,0};
-//bool b = 0;
-
 Model::Model(int size)
         : Model(size, size)
 { }
@@ -17,7 +14,6 @@ Model::Model(int width, int height)
 }
 
 Position mouse_pos = {0,0};
-bool b = 0;
 Position mouse_click_pos = {0,0};
 
 Rectangle Model::board() const
@@ -58,19 +54,20 @@ void Model::play_move(Position pos)
 // HELPER FUNCTIONS
 //
 
-Position_set Model::find_flips_(Position current, Dimensions dir) const
+Position_set Model::find_flips_(Position start, Dimensions dir) const
 {
     Position_set pset{};
+    Position current = start + 1 * dir;
 
     for (int n = 1; board_.good_position(current) ; ++n, current += n * dir) {
         if (board_[current] == other_player(turn_)) {
             pset[current] = true;
         }
-        else if (board_[current] == turn_) {
-            return pset;
+        if (!board_.good_position(current)){
+            return Position_set();
         }
     }
-    return Position_set();
+    return pset;
 }
 
 Position_set Model::evaluate_position_(Position pos) const
