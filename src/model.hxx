@@ -19,8 +19,6 @@
 
 // mouse position
 extern ge211::Position mouse_pos;
-// boolean represents whether or not the mouse has been pushed
-extern bool b;
 // mouse position on click
 extern ge211::Position mouse_click_pos;
 

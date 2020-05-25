@@ -21,7 +21,6 @@ void Controller::on_mouse_move(ge211::Position pos)
 
 void Controller::on_mouse_up(ge211::Mouse_button, ge211::Position pos)
 {
-    b = 1;
     mouse_click_pos = view_.board_to_screen(view_.screen_to_board(pos));
     model_.play_move(view_.screen_to_board(pos));
 }

@@ -15,7 +15,8 @@ static ge211::Color const
         dark_sprite_color = ge211::Color::black(),
         light_sprite_color = ge211::Color::white(),
         loser_color = ge211::Color {128,128,128},
-        grid_color = ge211::Color {0, 255, 0};
+        grid_color = ge211::Color {0,255,0},
+        hover_color = ge211::Color {255,0,0};
 
 
 View::View(Model const& model)
@@ -24,6 +25,7 @@ View::View(Model const& model)
         , light_sprite_(sprite_radius, light_sprite_color)
         , loser_sprite_(sprite_radius, loser_color)
         , grid_sprite_({grid_size - 2,grid_size - 2},grid_color)
+        , hover_sprite_({grid_size - 2, grid_size - 2},hover_color)
 { }
 
 void View::draw(Sprite_set& set)
@@ -31,7 +33,11 @@ void View::draw(Sprite_set& set)
     for ( ge211::Position pos : model_.board() )
     {
         set.add_sprite(grid_sprite_,board_to_screen(pos),0);
+<<<<<<< HEAD
+        add_player_(set,model_[pos],board_to_screen(pos),2);
+=======
     }
+
     if (b == 1){
         if (model_.find_move(screen_to_board(mouse_pos)) != NULL) {
             Position_set pos_set = model_.find_move(screen_to_board(mouse_pos))
@@ -42,26 +48,25 @@ void View::draw(Sprite_set& set)
             }
         }
 
+>>>>>>> cd5638285fcace909c325a09579cdf5f12687209
     }
 
     if (model_.turn() == Player::dark){
         set.add_sprite(dark_sprite_, board_to_screen
-        (screen_to_board(mouse_pos)), 1);
+        (screen_to_board(mouse_pos)), 2);
     } else if (model_.turn() == Player::light){
         set.add_sprite(light_sprite_, board_to_screen
-        (screen_to_board(mouse_pos)), 1);
+        (screen_to_board(mouse_pos)), 2);
+    } else {
+        set.add_sprite(loser_sprite_, board_to_screen
+                (screen_to_board(mouse_pos)), 2);
     }
+
     if (model_.find_move(screen_to_board(mouse_pos)) != NULL) {
         Position_set pos_set = model_.find_move(screen_to_board(mouse_pos))
                 ->second;
-        if (model_.turn() == Player::dark) {
-            for (Position p : pos_set) {
-                set.add_sprite(dark_sprite_, board_to_screen(p), 2);
-            }
-        } else if (model_.turn() == Player::light) {
-            for (Position p : pos_set) {
-                set.add_sprite(light_sprite_, board_to_screen(p), 2);
-            }
+        for (Position p : pos_set) {
+            set.add_sprite(hover_sprite_, board_to_screen(p), 1);
         }
     }
 }
@@ -83,19 +88,18 @@ void View::add_player_(ge211::Sprite_set &set,
                         ge211::Position pos,
                         int z) const
 {
-    if(model_.is_game_over()) {
-        if (model_.winner() == Player::dark) {
-            for (ge211::Position pos : model_.board()) {
-                if (model_.operator[](pos) ==
-                    Player::light) {
-                    set.add_sprite(loser_sprite_, board_to_screen(pos), z);
-                }
+
+    if (model_.winner() == Player::dark) {
+        for (ge211::Position pos : model_.board()) {
+            if (model_.operator[](pos) ==
+                Player::light) {
+                set.add_sprite(loser_sprite_, board_to_screen(pos), 3);
             }
-        } else if (model_.winner() == Player::light) {
-            for (ge211::Position pos : model_.board()) {
-                if (model_.operator[](pos) == Player::dark) {
-                    set.add_sprite(loser_sprite_, board_to_screen(pos), z);
-                }
+        }
+    } else if (model_.winner() == Player::light) {
+        for (ge211::Position pos : model_.board()) {
+            if (model_.operator[](pos) == Player::dark) {
+                set.add_sprite(loser_sprite_, board_to_screen(pos), 3);
             }
         }
     } else {
