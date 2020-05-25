@@ -28,43 +28,46 @@ View::View(Model const& model)
 
 void View::draw(Sprite_set& set)
 {
-    for ( ge211::Position pos : model_.board() )
-    {
+    for ( ge211::Position pos : model_.board() ) {
         set.add_sprite(grid_sprite_,board_to_screen(pos),0);
+        add_player_(set, model_[pos], board_to_screen(pos), 1);
     }
 
-    if (b == 1){
-        if (model_.find_move(screen_to_board(mouse_pos)) != NULL) {
-            Position_set pos_set = model_.find_move(screen_to_board(mouse_pos))
-                                         ->second;
-            add_player_(set, model_.turn(),mouse_click_pos, 1);
-            for (Position p : pos_set) {
-                add_player_(set, model_.turn(), p, 1);
-            }
-        }
-
-    }
+    //if (b == 1){
+    //    if (model_.find_move(screen_to_board(mouse_pos)) != NULL) {
+    //        Position_set pos_set = model_.find_move(screen_to_board(mouse_pos))
+    //                                     ->second;
+    //        add_player_(set, model_.turn(),mouse_click_pos, 1);
+    //        for (Position p : pos_set) {
+    //            add_player_(set, model_.turn(), p, 1);
+    //        }
+    //    }
+    //
+    //}
 
     if (model_.turn() == Player::dark){
-        set.add_sprite(dark_sprite_, board_to_screen
-        (screen_to_board(mouse_pos)), 1);
-    } else if (model_.turn() == Player::light){
+        set.add_sprite(dark_sprite_,
+                       board_to_screen(screen_to_board(mouse_pos)), 1);
+    }
+    else if (model_.turn() == Player::light) {
         set.add_sprite(light_sprite_, board_to_screen
         (screen_to_board(mouse_pos)), 1);
     }
-    if (model_.find_move(screen_to_board(mouse_pos)) != NULL) {
-        Position_set pos_set = model_.find_move(screen_to_board(mouse_pos))
-                ->second;
-        if (model_.turn() == Player::dark) {
-            for (Position p : pos_set) {
-                set.add_sprite(dark_sprite_, board_to_screen(p), 2);
-            }
-        } else if (model_.turn() == Player::light) {
-            for (Position p : pos_set) {
-                set.add_sprite(light_sprite_, board_to_screen(p), 2);
-            }
-        }
-    }
+
+    //if (model_.find_move(screen_to_board(mouse_pos)) != NULL) {
+    //    Position_set pos_set = model_.find_move(screen_to_board(mouse_pos))
+    //            ->second;
+    //    if (model_.turn() == Player::dark) {
+    //        for (Position p : pos_set) {
+    //            set.add_sprite(dark_sprite_, board_to_screen(p), 2);
+    //        }
+    //    } else if (model_.turn() == Player::light) {
+    //        for (Position p : pos_set) {
+    //            set.add_sprite(light_sprite_, board_to_screen(p), 2);
+    //        }
+    //    }
+    //}
+
 }
 
 Dimensions View::initial_window_dimensions() const
@@ -84,7 +87,7 @@ void View::add_player_(ge211::Sprite_set &set,
                         ge211::Position pos,
                         int z) const
 {
-    if(model_.is_game_over()) {
+    if (model_.is_game_over()) {
         if (model_.winner() == Player::dark) {
             for (ge211::Position pos : model_.board()) {
                 if (model_.operator[](pos) ==

@@ -52,6 +52,8 @@ void Model::play_move(Position pos)
     really_play_move_(*movep);
 }
 
+
+
 //
 // HELPER FUNCTIONS
 //
@@ -60,7 +62,7 @@ Position_set Model::find_flips_(Position current, Dimensions dir) const
 {
     Position_set pset{};
 
-    for (int n = 0; board_.good_position(current) ; ++n, current += n * dir) {
+    for (int n = 1; board_.good_position(current) ; ++n, current += n * dir) {
         if (board_[current] == other_player(turn_)) {
             pset[current] = true;
         }
