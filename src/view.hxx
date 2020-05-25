@@ -29,8 +29,6 @@ private:
 
     ge211::Circle_sprite dark_sprite_;
     ge211::Circle_sprite light_sprite_;
-    ge211::Circle_sprite dark_hover_sprite_;
-    ge211::Circle_sprite light_hover_sprite_;
     ge211::Circle_sprite loser_sprite_;
     ge211::Rectangle_sprite grid_sprite_;
 
