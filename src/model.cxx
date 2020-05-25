@@ -53,7 +53,7 @@ void Model::play_move(Position pos)
 }
 
 //
-// BELOW ARE *OPTIONAL* HELPER FUNCTIONS
+// HELPER FUNCTIONS
 //
 
 Position_set Model::find_flips_(Position current, Dimensions dir) const

@@ -36,32 +36,18 @@ void View::draw(Sprite_set& set)
     {
         set.add_sprite(grid_sprite_,board_to_screen(pos),0);
     }
+
     if (b == 1){
         add_player_(set, model_.turn(),mouse_click_pos, 1);
-
     }
 
     if (model_.turn() == Player::dark){
         set.add_sprite(dark_hover_sprite_, board_to_screen
         (screen_to_board(mouse_pos)), 1);
-    } else if (model_.turn() == Player::light){
+    } else if (model_.turn() == Player::light) {
         set.add_sprite(light_hover_sprite_, board_to_screen
-        (screen_to_board(mouse_pos)), 1);
+                (screen_to_board(mouse_pos)), 1);
     }
-    //Position_set pos_set = model_.find_move(screen_to_board({0,0}))->second;
-    //if (model_.turn() == Player::dark) {
-    //    set.add_sprite(dark_hover_sprite_, {36,36}, 1);
-    //    for (Position p : pos_set) {
-    //        set.add_sprite(dark_sprite_, board_to_screen(p), 2);
-    //    }
-    //} else if (model_.turn() == Player::light) {
-    //    set.add_sprite(light_hover_sprite_, {72,72}, 1);
-    //    for (Position p : pos_set)
-    //    {
-    //        set.add_sprite(light_sprite_, board_to_screen(p), 2);
-    //    }
-    //}
-
 }
 
 Dimensions View::initial_window_dimensions() const
