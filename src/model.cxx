@@ -14,7 +14,6 @@ Model::Model(int width, int height)
 }
 
 Position mouse_pos = {0,0};
-Position mouse_click_pos = {0,0};
 
 Rectangle Model::board() const
 {
@@ -47,8 +46,6 @@ void Model::play_move(Position pos)
 
     really_play_move_(*movep);
 }
-
-
 
 //
 // HELPER FUNCTIONS

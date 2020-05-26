@@ -55,7 +55,7 @@ TEST_CASE("Throws with starter code")
     m.play_move({1, 1});
 }
 
-TEST_CASE("Next Moves Works")
+TEST_CASE("Transition to Main Phase")
 {
     Model m(8);
     Test_access t{m};
@@ -67,16 +67,7 @@ TEST_CASE("Next Moves Works")
 
     Position_set pset = t.find_flips(Position{3,5}, Dimensions{0,-1});
 
-    std::cout << "Find flips: {3, 5}" << std::endl;
-    for (Position pos : pset) {
-        std::cout << "X = " << pos.x << "\tY = " << pos.y << std::endl;
-    }
-
-    std::cout << "Next moves:" << std::endl;
-    for (Move m : t.move_map()) {
-        std::cout << "X = " << m.first.x << "\tY = " << m.first.y << std::endl;
-    }
-
+    CHECK( pset[{3,4}] );
     CHECK( m.find_move({3, 5}) );
 
 }

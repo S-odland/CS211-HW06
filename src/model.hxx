@@ -17,11 +17,6 @@
 #include <iostream>
 #include <vector>
 
-// mouse position
-extern ge211::Position mouse_pos;
-// mouse position on click
-extern ge211::Position mouse_click_pos;
-
 // Represents the state of the Reversi game.
 class Model
 {
