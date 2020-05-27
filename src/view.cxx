@@ -8,40 +8,43 @@ using Color      = ge211::Color;
 using Sprite_set = ge211::Sprite_set;
 using Builder    = ge211::Text_sprite::Builder;
 
-// You can change this or even determine it some other way:
+// Geometric Constants
 static int const
-    grid_size = 48,
-    marker_radius = 20,
-    border_width = 2,
+    grid_size        = 48,
+    marker_radius    = 20,
+    border_width     = 2,
     indicator_radius = grid_size / 6,
-    border_radius = indicator_radius + border_width;
+    border_radius    = indicator_radius + border_width;
 
-
+// Convenient Dimension constants
 static Dimensions const
-    grid_dims       {grid_size - border_width, grid_size - border_width},
-    marker_shift    {grid_size / 2 - marker_radius,
-                     grid_size / 2 - marker_radius},
-    indicator_shift {grid_size / 2 - indicator_radius,
-                     grid_size / 2 - indicator_radius},
-    border_shift    {grid_size / 2 - border_radius,
+    grid_dims{grid_size - border_width, grid_size - border_width},
+    marker_shift{grid_size / 2 - marker_radius,
+                 grid_size / 2 - marker_radius},
+    indicator_shift{grid_size / 2 - indicator_radius,
+                    grid_size / 2 - indicator_radius},
+    border_shift{grid_size / 2 - border_radius,
                      grid_size / 2 - border_radius};
 
+// Color Constants
+static ge211::Color const
+        dark_sprite_color  = Color::black(),
+        light_sprite_color = Color::white(),
+        loser_color        = ge211::Color {128,128,128},
+        grid_color         = Color::medium_green().darken(0.25),
+        flip_color         = Color{255, 0, 0};
+
+// Organizing Sprite Layers
 enum Layer : int
 {
-    grid,
-    flip,
-    border,
-    indicator,
-    marker,
-    text,
+    grid_l,
+    flip_l,
+    border_l,
+    indicator_l,
+    marker_l,
 };
 
-static ge211::Color const
-    dark_sprite_color  = Color::black(),
-    light_sprite_color = Color::white(),
-    loser_color        = ge211::Color {128,128,128},
-    grid_color         = Color::medium_green().darken(0.25),
-    flip_color         = Color{255, 0, 0};
+
 
 View::View(Model const& model)
         : model_(model)
@@ -82,7 +85,7 @@ void View::draw(Sprite_set& set, Position mouse_pos)
 
     // Draw the board, player markers, and possible moves
     for ( ge211::Position pos : model_.board() ) {
-        set.add_sprite(grid_sprite_, board_to_screen(pos), grid);
+        set.add_sprite(grid_sprite_, board_to_screen(pos), grid_l);
         add_player_(set, pos);
 
         if (model_.find_move(pos))
@@ -90,9 +93,9 @@ void View::draw(Sprite_set& set, Position mouse_pos)
     }
 
     if (model_.find_move(mouse_pos)) {
-        set.add_sprite(flip_sprite_, board_to_screen(mouse_pos), flip);
+        set.add_sprite(flip_sprite_, board_to_screen(mouse_pos), flip_l);
         for (Position p : model_.find_move(mouse_pos)->second) {
-            set.add_sprite(flip_sprite_, board_to_screen(p), flip);
+            set.add_sprite(flip_sprite_, board_to_screen(p), flip_l);
         }
     }
 }
@@ -110,23 +113,6 @@ std::string View::initial_window_title() const
     return "Reversi";
 }
 
-void View::add_player_(ge211::Sprite_set &set, Position pos)
-{
-    Position screen = board_to_screen(pos);
-    if (model_[pos] == Player::dark) {
-        set.add_sprite(dark_sprite_, screen + marker_shift, marker);
-    } else if (model_[pos] == Player::light) {
-        set.add_sprite(light_sprite_, screen + marker_shift, marker);
-    }
-}
-
-void View::indicate_move_(Sprite_set& set, Position pos)
-{
-    pos = board_to_screen(pos);
-    set.add_sprite(indicator_sprite_, pos + indicator_shift, indicator);
-    set.add_sprite(border_sprite_, pos + border_shift, border);
-}
-
 Position View::screen_to_board(Position pos) const
 {
     pos.x /= grid_size;
@@ -140,5 +126,27 @@ Position View::board_to_screen(Position pos) const
     pos.y *= grid_size;
     return pos;
 }
+
+///
+/// Private Member Functions
+///
+
+void View::add_player_(ge211::Sprite_set &set, Position pos)
+{
+    Position screen = board_to_screen(pos);
+    if (model_[pos] == Player::dark) {
+        set.add_sprite(dark_sprite_, screen + marker_shift, marker_l);
+    } else if (model_[pos] == Player::light) {
+        set.add_sprite(light_sprite_, screen + marker_shift, marker_l);
+    }
+}
+
+void View::indicate_move_(Sprite_set& set, Position pos)
+{
+    pos = board_to_screen(pos);
+    set.add_sprite(indicator_sprite_, pos + indicator_shift, indicator_l);
+    set.add_sprite(border_sprite_, pos + border_shift, border_l);
+}
+
 
 
